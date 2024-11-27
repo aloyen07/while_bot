@@ -1,0 +1,17 @@
+{
+  "bot": {
+    "APIKEY": "token",
+    "GROUP_ID": 1234567,
+    "LONG_POLL_API_VERSION": "5.199",
+    "WAIT_TIME": 25
+  },
+  "database": {
+    "IP": "localhost",
+    "PORT": 5432,
+    "USER": "postgres",
+    "PASSWORD": "password",
+    "DATABASE": "database",
+    "SCHEMA": "schema",
+    "CONNECTION_COUNT": 20
+  }
+}
