@@ -13,6 +13,10 @@ public class Main {
 
     private static final Logger logger = LogManager.getLogger("Main Thread");
 
+    public static Logger getLogger(String name) {
+        return LogManager.getLogger(name);
+    }
+
     private static Settings settings;
     private static SQLManager sqlManager;
     private static CommandManager manager;

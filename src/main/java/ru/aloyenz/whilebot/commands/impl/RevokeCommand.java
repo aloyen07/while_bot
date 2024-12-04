@@ -13,6 +13,10 @@ import java.util.List;
 
 public class RevokeCommand extends Command {
 
+    public RevokeCommand() {
+        super("Revoke Command");
+    }
+
     @Override
     public int argsNum() {
         return 2;

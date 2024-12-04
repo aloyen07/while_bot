@@ -13,6 +13,10 @@ import java.util.List;
 
 public class GrantCommand extends Command {
 
+    public GrantCommand() {
+        super("Grant Command");
+    }
+
     @Override
     public int argsNum() {
         return 2;

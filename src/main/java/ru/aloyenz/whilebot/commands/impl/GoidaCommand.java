@@ -10,6 +10,10 @@ import java.util.List;
 
 public class GoidaCommand extends Command {
 
+    public GoidaCommand() {
+        super("Goida Command");
+    }
+
     @Override
     public int argsNum() {
         return -1;

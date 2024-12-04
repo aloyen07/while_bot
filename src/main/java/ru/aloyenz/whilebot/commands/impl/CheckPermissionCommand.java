@@ -11,6 +11,10 @@ import java.util.List;
 
 public class CheckPermissionCommand extends Command {
 
+    public CheckPermissionCommand() {
+        super("CheckPermission Command");
+    }
+
     @Override
     public int argsNum() {
         return -1;
