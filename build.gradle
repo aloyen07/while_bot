@@ -1,9 +1,12 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 group = 'ru.aloyenz.whilebot'
 version = '1.0-SNAPSHOT'
+targetCompatibility=JavaVersion.VERSION_17
+sourceCompatibility=JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -30,7 +33,64 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     implementation 'org.jetbrains:annotations:26.0.1'
+}
 
+configurations {
+    implementation {
+        canBeResolved = true
+    }
+    specialImplementation
+}
+
+dependencies {
+    specialImplementation 'com.vk.api:sdk:1.0.16'
+    specialImplementation "com.google.code.gson:gson:2.8.9"
+    specialImplementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.2'
+    specialImplementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+    specialImplementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+    specialImplementation "com.zaxxer:HikariCP:4.0.3"
+    specialImplementation "org.postgresql:postgresql:42.7.4"
+    specialImplementation 'org.jetbrains:annotations:26.0.1'
+}
+
+shadowJar {
+
+    mergeServiceFiles()
+
+    archiveBaseName.set("whilebot-all")
+    archiveClassifier.set('BETA')
+    archiveVersion.set(version)
+
+    //—————————————No libraries?————————————
+    //⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝
+    //⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇
+    //⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀
+    //⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀
+    //⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀
+    //⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀
+    //⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    //——————————————————————————————————————
+
+    configurations = [project.configurations.specialImplementation]
+
+    relocate 'com.vk.api', 'ru.aloyenz.whilebot.shaded.com.vk.api'
+    relocate 'com.google.code.gson', 'ru.aloyenz.whilebot.shaded.com.google.code.gson'
+    relocate 'org.apache.logging.log4j', 'ru.aloyenz.whilebot.shaded.org.apache.logging.log4j'
+    relocate 'com.zaxxer', 'ru.aloyenz.whilebot.shaded.com.zaxxer'
+    relocate 'org.postgresq', 'ru.aloyenz.whilebot.shaded.org.postgresq'
+    relocate 'org.jetbrains', 'ru.aloyenz.whilebot.shaded.com.org.jetbrains'
+
+    manifest {
+        attributes([
+                'Main-Class': "ru.aloyenz.whilebot.Main"
+        ])
+    }
 }
 
 test {

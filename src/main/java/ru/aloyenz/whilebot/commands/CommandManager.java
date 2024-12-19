@@ -57,7 +57,7 @@ public class CommandManager {
             List<String> args = new ArrayList<>();
             Collections.addAll(args, text.split(" "));
 
-            Command command = commands.get(args.getFirst().toLowerCase());
+            Command command = commands.get(args.get(0).toLowerCase());
             if (command != null) {
                 Message output;
 
@@ -67,8 +67,8 @@ public class CommandManager {
                     if (permission.hasPermissions(command.needPermission())) {
                         if (command.argsNum() == args.size() - 1 || command.argsNum() < 0) {
                             logger.debug("User {} used command {}", context.message().getObject().getMessage().getFromId(),
-                                    args.getFirst().toLowerCase());
-                            args.removeFirst();
+                                    args.get(0).toLowerCase());
+                            args.remove(0);
                             try {
                                 output = wrapWithUsageError(command, command.executor().execute(context, args));
                             } catch (SQLException e) {

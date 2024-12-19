@@ -9,8 +9,14 @@ public enum LessonSchema {
     FIVETH("16:00"),
     SIXTH("18:00"),
     SEVENTH("19:40");
+
+    private final String time;
     
     LessonSchema(String time) {
-        
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
     }
 }

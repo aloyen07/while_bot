@@ -56,24 +56,23 @@ public class Lesson {
         ps.setInt(1, id);
 
         ResultSet rs = ps.executeQuery();
-        ps.close();
 
         try {
-            return new Lesson(rs, connection, isClose);
+            return new Lesson(rs, connection, ps, isClose);
         } catch (RecordNotFoundException e) {
             throw new RecordNotFoundException("lesson", "id", id);
         }
     }
 
     private static Lesson lessonFor(String name, Connection connection, boolean isClose) throws SQLException, RecordNotFoundException {
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM lessons WHERE name = ?;");
-        ps.setString(1, name);
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM lessons WHERE LOWER(name) = ? OR LOWER(short_name) = ?;");
+        ps.setString(1, name.toLowerCase());
+        ps.setString(2, name.toLowerCase());
 
         ResultSet rs = ps.executeQuery();
-        ps.close();
 
         try {
-            return new Lesson(rs, connection, isClose);
+            return new Lesson(rs, connection, ps, isClose);
         } catch (RecordNotFoundException e) {
             throw new RecordNotFoundException("lesson", "name", name);
         }
@@ -84,7 +83,7 @@ public class Lesson {
     private final String name;
     private boolean isClosed;
 
-    private Lesson(ResultSet rs, Connection connection, boolean isClose) throws SQLException, RecordNotFoundException {
+    private Lesson(ResultSet rs, Connection connection, PreparedStatement ps, boolean isClose) throws SQLException, RecordNotFoundException {
 
         if (rs.next()) {
             this.id = rs.getInt("id");
@@ -100,6 +99,9 @@ public class Lesson {
             }
             throw new RecordNotFoundException();
         }
+
+        rs.close();
+        ps.close();
 
     }
 
@@ -140,5 +142,10 @@ public class Lesson {
 
         ps.close();
         connection.close();
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + shortName + ") ID: " + id + ".";
     }
 }

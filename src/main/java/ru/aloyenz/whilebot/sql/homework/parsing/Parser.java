@@ -126,7 +126,7 @@ public class Parser {
             throw new NotInitializedException();
         }
 
-        checkForIndexDuplications(ordinals.getFirst());
+        checkForIndexDuplications(ordinals.get(0));
 
         if (opens != closes) {
             throw new BracketsMismatch(opens, closes);
@@ -142,7 +142,7 @@ public class Parser {
 
 
 
-        return new Pair<>(hwName.toString(), ordinals.getFirst());
+        return new Pair<>(hwName.toString(), ordinals.get(0));
     }
 
     private static void checkForIndexDuplications(TreeBranch branchIn) {

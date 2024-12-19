@@ -1,16 +1,18 @@
 package ru.aloyenz.whilebot.commands;
 
-import ru.aloyenz.whilebot.commands.impl.CheckPermissionCommand;
-import ru.aloyenz.whilebot.commands.impl.GoidaCommand;
-import ru.aloyenz.whilebot.commands.impl.GrantCommand;
-import ru.aloyenz.whilebot.commands.impl.RevokeCommand;
+import ru.aloyenz.whilebot.commands.impl.*;
 
 public enum Commands {
 
     GOIDA("гойда", new GoidaCommand()),
     CHECK_PERMS("perm_level", new CheckPermissionCommand()),
     GRANT("grant", new GrantCommand()),
-    REVOKE("revoke", new RevokeCommand());
+    REVOKE("revoke", new RevokeCommand()),
+    CREATE_HOMEWORK("create_homework", new CreateHomeworkCommand()),
+    CONFIRM("confirm", new ConfirmCommand()),
+    GET_HOMEWORK("get_homework", new GetHomeworkCommand()),
+    TAKE_COMMAND("take", new TakeCommand()),
+    UNTAKE_COMMAND("untake", new UntakeCommand());
 
     public static void registerAll(CommandManager manager) {
         for (Commands command : values()) {

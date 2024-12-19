@@ -145,6 +145,7 @@ public class VKMessageHandler extends GroupLongPollApi {
         isRunning = true;
         try {
             logger.info("LongPoll handler started to handle events");
+            Main.handleInitEvent();
             GetLongPollEventsResponse eventsResponse;
             String timestamp = lpServer.getTs();
             while (isRunning) {
